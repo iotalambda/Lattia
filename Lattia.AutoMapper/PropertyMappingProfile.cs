@@ -92,9 +92,9 @@ namespace Lattia.AutoMapper
                         return target;
                     }
 
-                    var instance = Activator.CreateInstance(typeof(Property<>).MakeGenericType(source.GetType()), new object[] { source, source != null }) as Property<T>;
+                    var sourceType = source.GetType();
 
-                    return instance;
+                    return Utils.CreatePropertyValue(sourceType, source, source != null) as Property<T>;
                 });
         }
     }
