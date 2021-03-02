@@ -4,14 +4,14 @@ namespace Lattia
 {
     public abstract class PropertyNode<TPropertyNode> where TPropertyNode : PropertyNode<TPropertyNode>
     {
-        public PropertyNode(TPropertyNode declaring, string name)
+        public PropertyNode(TPropertyNode parent, string name)
         {
-            Declaring = declaring;
+            Parent = parent;
 
             Name = name;
         }
 
-        public TPropertyNode Declaring { get; }
+        public TPropertyNode Parent { get; }
 
         public string Name { get; }
 
@@ -39,9 +39,9 @@ namespace Lattia
 
         internal void EvaluatePath(StringBuilder stringBuilder)
         {
-            if (Declaring != default)
+            if (Parent != default)
             {
-                Declaring.EvaluatePath(stringBuilder);
+                Parent.EvaluatePath(stringBuilder);
             }
 
             stringBuilder.Append(".");

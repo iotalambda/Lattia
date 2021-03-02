@@ -18,9 +18,9 @@ namespace Lattia.Controllers
 
         private readonly IMapper _mapper;
 
-        private readonly PermissionCheckingService service;
+        private readonly CheckPropertyPermissionsService service;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, IMapper mapper, PermissionCheckingService service)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IMapper mapper, CheckPropertyPermissionsService service)
         {
             _logger = logger;
 

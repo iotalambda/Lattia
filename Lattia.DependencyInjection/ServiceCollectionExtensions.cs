@@ -1,10 +1,11 @@
 ﻿using Lattia;
 using Lattia.Attributes;
-using Lattia.DependencyInjection;
+using Lattia.Contexts;
+using Lattia.Pipelines;
+using Lattia.Setups;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -12,38 +13,41 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddLattia(this IServiceCollection services, params Type[] modelTypes)
         {
-            var lattiaContext = new LattiaContext();
+            services.AddSingleton<ReadOnlyAttributeSetup>();
+            services.AddSingleton<IInitializePropertyTypeNode, ReadOnlyAttributeSetup>();
+            services.AddSingleton<ICheckPropertyPermissions, ReadOnlyAttributeSetup>();
+            services.AddTransient<ICheckPropertyPermissionsPipeline, CheckPropertyPermissionsPipeline>();
+            services.AddTransient<IInitializePropertyTypeNodePipeline, InitializePropertyTypeNodePipeline>();
 
-            foreach (var t in modelTypes)
+            services.AddSingleton<LattiaSingletonContext>(s =>
             {
-                var nodes = new List<PropertyTypeNode>();
+                var lattiaContext = new LattiaSingletonContext();
 
-                PropertyTypeVisitor.Traverse(t, n =>
+                var pipeline = s.GetRequiredService<IInitializePropertyTypeNodePipeline>();
+
+                foreach (var modelType in modelTypes)
                 {
-                    if (n.PropertyInfo.GetCustomAttributes(true)?.Any(a => a is ReadOnlyAttribute) == true)
+                    var nodes = new List<PropertyTypeNode>();
+
+                    PropertyTypeVisitor.Traverse(modelType, n =>
                     {
-                        n.Extensions["IsReadOnly"] = true;
+                        pipeline.InitializePropertyTypeNode(new InitializePropertyTypeNodeContext(n));
+
+                        nodes.Add(n);
+                    });
+
+                    foreach (var n in nodes)
+                    {
+                        lattiaContext.PropertyTypeNodes[n.Path] = n;
                     }
 
-                    if (n.Declaring != null && (bool)n.Declaring.Extensions.TryGetValue("IsReadOnly", out var obj) && (bool)obj == true)
-                    {
-                        n.Extensions["IsReadOnly"] = true;
-                    }
-
-                    nodes.Add(n);
-                });
-
-                foreach (var n in nodes)
-                {
-                    lattiaContext.PropertyTypeNodes[n.Path] = n;
+                    lattiaContext.ModelTypeFullNameToPropertyPaths[modelType.FullName] = nodes.Select(n => n.Path).ToList();
                 }
 
-                lattiaContext.ModelTypeFullNameToPropertyPaths[t.FullName] = nodes.Select(n => n.Path).ToList();
-            }
+                return lattiaContext;
+            });
 
-            services.AddSingleton(lattiaContext);
-
-            services.AddSingleton<PermissionCheckingService>();
+            services.AddSingleton<CheckPropertyPermissionsService>();
 
             return services;
         }

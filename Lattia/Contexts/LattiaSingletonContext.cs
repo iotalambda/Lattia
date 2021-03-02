@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
-namespace Lattia
+namespace Lattia.Contexts
 {
-    public class LattiaContext
+    public class LattiaSingletonContext
     {
         public Dictionary<string, PropertyTypeNode> PropertyTypeNodes { get; set; } = new Dictionary<string, PropertyTypeNode>();
 

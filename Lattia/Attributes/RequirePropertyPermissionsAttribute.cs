@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Lattia.Contexts;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,9 +11,9 @@ namespace Lattia.Attributes
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            var service = context.HttpContext.RequestServices.GetRequiredService<PermissionCheckingService>();
+            var service = context.HttpContext.RequestServices.GetRequiredService<CheckPropertyPermissionsService>();
 
-            var lattiaContext = context.HttpContext.RequestServices.GetRequiredService<LattiaContext>();
+            var lattiaContext = context.HttpContext.RequestServices.GetRequiredService<LattiaSingletonContext>();
 
             var models = from arg in context.ActionArguments
                          join par in (context.ActionDescriptor as ControllerActionDescriptor).MethodInfo.GetParameters() on arg.Key equals par.Name

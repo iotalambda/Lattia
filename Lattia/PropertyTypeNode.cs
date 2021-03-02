@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace Lattia
 {
@@ -13,6 +12,6 @@ namespace Lattia
 
         public PropertyInfo PropertyInfo { get; }
 
-        public Dictionary<string, object> Extensions { get; set; } = new Dictionary<string, object>();
+        public Extensions Extensions { get; set; } = new Extensions();
     }
 }

@@ -36,25 +36,25 @@ namespace Lattia
 
                 evaluate(currentNode);
 
-                var innerType = propertyInfo.PropertyType.GetGenericArguments()[0];
+                var innerType = propertyInfo.GetGenericArgument();
 
-                if (Utils.IsNonStringEnumerable(innerType))
+                switch (innerType.ResolveSerializablePropertyType())
                 {
-                    foreach (var item in property.ObjValue as IEnumerable)
-                    {
-                        Traverse(item, evaluate, currentNode);
-                    }
-                }
-                else if (Utils.IsSimpleType(innerType))
-                {
-                }
-                else if (Utils.IsObjectType(innerType))
-                {
-                    Traverse(property.ObjValue, evaluate, currentNode);
-                }
-                else
-                {
-                    throw new NotImplementedException(innerType.FullName);
+                    case SerializablePropertyType.Simple:
+                        break;
+
+                    case SerializablePropertyType.Object:
+                        Traverse(property.ObjValue, evaluate, currentNode);
+                        break;
+
+                    case SerializablePropertyType.Enumerable:
+                        foreach (var item in property.ObjValue as IEnumerable)
+                        {
+                            Traverse(item, evaluate, currentNode);
+                        }
+                        break;
+
+                    default: throw new NotSupportedException(innerType.FullName);
                 }
             }
         }

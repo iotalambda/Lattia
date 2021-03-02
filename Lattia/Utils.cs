@@ -34,5 +34,10 @@ namespace Lattia
         {
             return property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(Property<>);
         }
+
+        public static Property CreatePropertyValue(Type innerType, object value, bool hasValue)
+        {
+            return Activator.CreateInstance(typeof(Property<>).MakeGenericType(innerType), new object[] { value, hasValue }) as Property;
+        }
     }
 }

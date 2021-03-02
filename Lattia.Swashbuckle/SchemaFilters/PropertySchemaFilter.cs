@@ -1,5 +1,4 @@
-﻿using Lattia.Abstractions;
-using Microsoft.OpenApi.Models;
+﻿using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Lattia.Swashbuckle.SchemaFilters
@@ -8,7 +7,7 @@ namespace Lattia.Swashbuckle.SchemaFilters
     {
         public void Apply(OpenApiSchema schema, SchemaFilterContext context)
         {
-            if (context.Type.IsGenericType && context.Type.GetGenericTypeDefinition() == typeof(IProperty<>))
+            if (context.Type.IsGenericType && context.Type.GetGenericTypeDefinition() == typeof(Property<>))
             {
                 schema.Type = schema.Properties["value"].Type;
 

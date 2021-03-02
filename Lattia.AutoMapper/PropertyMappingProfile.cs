@@ -16,20 +16,25 @@ namespace Lattia.AutoMapper
                     {
                         return null;
                     }
-                    else if (Utils.IsObjectType(property.ObjValue.GetType()))
-                    {
-                        var targetType = HackyMappingLookup.GetTargetType(property.ObjValue.GetType(), context.Mapper);
 
-                        return context.Mapper.Map(property.ObjValue, property.ObjValue.GetType(), targetType);
-                    }
-                    else if (Utils.IsSimpleType(property.ObjValue.GetType()))
+                    var sourceValue = property.ObjValue;
+
+                    var sourceType = property.ObjValue.GetType();
+
+                    switch (sourceType.ResolveSerializablePropertyType())
                     {
-                        return property.ObjValue;
-                    }
-                    else
-                    {
-                        throw new NotImplementedException(property.GetType().FullName);
-                    }
+                        case SerializablePropertyType.Simple:
+                            return sourceValue;
+
+                        case SerializablePropertyType.Object:
+                            var targetType = HackyMappingLookup.GetTargetType(sourceType, context.Mapper);
+                            return context.Mapper.Map(sourceValue, sourceType, targetType);
+
+                        case SerializablePropertyType.Enumerable:
+                            throw new NotImplementedException();
+
+                        default: throw new NotSupportedException(sourceType.FullName);
+                    };
                 });
 
 
@@ -57,21 +62,22 @@ namespace Lattia.AutoMapper
                         return target;
                     }
 
-                    if (Utils.IsObjectType(source.GetType()))
-                    {
-                        var targetType = HackyMappingLookup.GetTargetType(source.GetType(), context.Mapper);
+                    var sourceType = source.GetType();
 
-                        var targetValue = context.Mapper.Map(source, source.GetType(), targetType);
+                    switch (sourceType.ResolveSerializablePropertyType())
+                    {
+                        case SerializablePropertyType.Simple:
+                            return Utils.CreatePropertyValue(sourceType, source, source != default);
 
-                        return Activator.CreateInstance(typeof(Property<>).MakeGenericType(targetType), new object[] { targetValue, true });
-                    }
-                    else if (Utils.IsSimpleType(source.GetType()))
-                    {
-                        return Activator.CreateInstance(typeof(Property<>).MakeGenericType(source.GetType()), new object[] { source, source != default });
-                    }
-                    else
-                    {
-                        throw new NotImplementedException(source.GetType().FullName);
+                        case SerializablePropertyType.Object:
+                            var targetType = HackyMappingLookup.GetTargetType(sourceType, context.Mapper);
+                            var targetValue = context.Mapper.Map(source, sourceType, targetType);
+                            return Utils.CreatePropertyValue(targetType, targetValue, true);
+
+                        case SerializablePropertyType.Enumerable:
+                            throw new NotImplementedException();
+
+                        default: throw new NotSupportedException(sourceType.FullName);
                     }
                 });
         }

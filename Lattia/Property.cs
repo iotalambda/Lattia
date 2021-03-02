@@ -1,10 +1,9 @@
-﻿using Lattia.Abstractions;
-using Lattia.Json;
+﻿using Lattia.Json;
 using Newtonsoft.Json;
 
 namespace Lattia
 {
-    public sealed class Property<T> : Property, IProperty<T>
+    public sealed class Property<T> : Property
     {
         public Property(object value, bool hasValue)
             : base(value, hasValue)
