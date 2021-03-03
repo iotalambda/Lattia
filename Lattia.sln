@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lattia.AutoMapper", "Lattia
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lattia.DependencyInjection", "Lattia.DependencyInjection\Lattia.DependencyInjection.csproj", "{B80B5EE4-0115-4470-B5D2-241B4072C4AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lattia.Extensions", "Lattia.Extensions\Lattia.Extensions.csproj", "{DC30CB62-1FD9-42A5-8A5E-C7A8EDD3B899}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lattia.Extensions.DependencyInjection", "Lattia.Extensions.DependencyInjection\Lattia.Extensions.DependencyInjection.csproj", "{4D42102B-7F75-4622-B0D8-BBD83429F119}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{B80B5EE4-0115-4470-B5D2-241B4072C4AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B80B5EE4-0115-4470-B5D2-241B4072C4AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B80B5EE4-0115-4470-B5D2-241B4072C4AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC30CB62-1FD9-42A5-8A5E-C7A8EDD3B899}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC30CB62-1FD9-42A5-8A5E-C7A8EDD3B899}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC30CB62-1FD9-42A5-8A5E-C7A8EDD3B899}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC30CB62-1FD9-42A5-8A5E-C7A8EDD3B899}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D42102B-7F75-4622-B0D8-BBD83429F119}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D42102B-7F75-4622-B0D8-BBD83429F119}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D42102B-7F75-4622-B0D8-BBD83429F119}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D42102B-7F75-4622-B0D8-BBD83429F119}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

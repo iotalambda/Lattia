@@ -13,9 +13,6 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddLattia(this IServiceCollection services, params Type[] modelTypes)
         {
-            services.AddSingleton<ReadOnlyAttributeSetup>();
-            services.AddSingleton<IInitializePropertyTypeNode, ReadOnlyAttributeSetup>();
-            services.AddSingleton<ICheckPropertyPermissions, ReadOnlyAttributeSetup>();
             services.AddTransient<ICheckPropertyPermissionsPipeline, CheckPropertyPermissionsPipeline>();
             services.AddTransient<IInitializePropertyTypeNodePipeline, InitializePropertyTypeNodePipeline>();
 

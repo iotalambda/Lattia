@@ -7,11 +7,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Lattia\Lattia.csproj" />
+    <ProjectReference Include="..\Lattia.Extensions\Lattia.Extensions.csproj" />
   </ItemGroup>
 
 </Project>

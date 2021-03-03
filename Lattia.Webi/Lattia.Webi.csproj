@@ -15,6 +15,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Lattia.AutoMapper\Lattia.AutoMapper.csproj" />
     <ProjectReference Include="..\Lattia.DependencyInjection\Lattia.DependencyInjection.csproj" />
+    <ProjectReference Include="..\Lattia.Extensions.DependencyInjection\Lattia.Extensions.DependencyInjection.csproj" />
+    <ProjectReference Include="..\Lattia.Extensions\Lattia.Extensions.csproj" />
     <ProjectReference Include="..\Lattia.Swashbuckle\Lattia.Swashbuckle.csproj" />
     <ProjectReference Include="..\Lattia\Lattia.csproj" />
   </ItemGroup>
