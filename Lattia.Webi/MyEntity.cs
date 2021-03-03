@@ -12,5 +12,7 @@ namespace Lattia
         public int[] MyArr { get; set; }
 
         public List<MyNestedEntity> MyNesteds { get; set; }
+
+        public int? MyOtherInt { get; set; }
     }
 }
