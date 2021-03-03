@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lattia.AutoMapper
 {
@@ -17,9 +20,9 @@ namespace Lattia.AutoMapper
                         return null;
                     }
 
-                    var sourceValue = property.ObjValue;
-
                     var sourceType = property.ObjValue.GetType();
+
+                    var sourceValue = property.ObjValue;
 
                     switch (sourceType.ResolveSerializablePropertyType())
                     {
@@ -31,10 +34,45 @@ namespace Lattia.AutoMapper
                             return context.Mapper.Map(sourceValue, sourceType, targetType);
 
                         case SerializablePropertyType.Enumerable:
-                            throw new NotImplementedException();
+                                
+                            var sourceItemType = sourceType.GetEnumerableItemType();
+                            Type targetItemType = default;
+
+                            switch (sourceItemType.ResolveSerializablePropertyType())
+                            {
+                                case SerializablePropertyType.Simple:
+                                    targetItemType = sourceItemType;
+                                    break;
+
+                                case SerializablePropertyType.Object:
+                                    targetItemType = HackyMappingLookup.GetTargetType(sourceItemType, context.Mapper);
+                                    break;
+
+                                default: throw new NotSupportedException(sourceItemType.FullName);
+                            }
+                                
+                            Type targetEnumerableType = default;
+                                
+                            if (sourceValue is Array)
+                            {
+                                targetEnumerableType = targetItemType.MakeArrayType();
+                            }
+
+                            if (sourceType.IsGenericType && sourceType.GetGenericTypeDefinition() is var generic)
+                            {
+                                targetEnumerableType = generic.MakeGenericType(targetItemType);
+                            }
+
+                            if (targetEnumerableType == default)
+                            {
+                                throw new NotImplementedException(sourceType.FullName);
+                            }
+
+                            return context.Mapper.Map(sourceValue, sourceType, targetEnumerableType);
 
                         default: throw new NotSupportedException(sourceType.FullName);
                     };
+
                 });
 
 

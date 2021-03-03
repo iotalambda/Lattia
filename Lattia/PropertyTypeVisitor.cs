@@ -33,7 +33,7 @@ namespace Lattia
                         break;
 
                     case SerializablePropertyType.Enumerable:
-                        Traverse(innerType.GetGenericArgument(), evaluate, currentNode);
+                        Traverse(innerType.GetEnumerableItemType(), evaluate, currentNode);
                         break;
 
                     default: throw new NotSupportedException(innerType.FullName);

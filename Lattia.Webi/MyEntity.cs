@@ -1,4 +1,5 @@
 ﻿using Lattia.Webi;
+using System.Collections.Generic;
 
 namespace Lattia
 {
@@ -7,5 +8,9 @@ namespace Lattia
         public string MyString { get; set; }
 
         public MyNestedEntity MyNested { get; set; }
+
+        public int[] MyArr { get; set; }
+
+        public List<MyNestedEntity> MyNesteds { get; set; }
     }
 }

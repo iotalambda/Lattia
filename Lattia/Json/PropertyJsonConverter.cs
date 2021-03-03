@@ -16,13 +16,17 @@ namespace Lattia.Json
             {
                 var innerReader = JObject.Load(reader).CreateReader();
 
-                var innerType = objectType.GetGenericArguments()[0];
+                var innerType = objectType.GetGenericArgument();
 
                 value = serializer.Deserialize(innerReader, innerType);
             }
             else if (reader.TokenType == JsonToken.StartArray)
             {
-                throw new NotImplementedException("TODO");
+                var innerReader = JArray.Load(reader).CreateReader();
+
+                var innerType = objectType.GetGenericArgument();
+
+                value = serializer.Deserialize(innerReader, innerType);
             }
             else
             {

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace Lattia
 {
-    public static class SystemExtensions
+    public static class GeneralExtensions
     {
         public static Type GetGenericArgument(this Type type) => type.GetGenericArguments()[0];
 
@@ -27,6 +29,14 @@ namespace Lattia
             }
 
             throw new NotSupportedException(type.FullName);
+        }
+
+        public static Type GetEnumerableItemType(this Type enumerableType)
+        {
+            return enumerableType
+                .GetInterfaces()
+                .Single(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+                .GetGenericArgument();
         }
     }
 }
