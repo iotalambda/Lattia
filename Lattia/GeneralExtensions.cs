@@ -33,6 +33,13 @@ namespace Lattia
 
         public static Type GetEnumerableItemType(this Type enumerableType)
         {
+            if (enumerableType.IsGenericType
+                && enumerableType.GetGenericTypeDefinition() is var generic
+                && (generic == typeof(IEnumerable<>) || generic == typeof(ICollection<>) || generic == typeof(IList<>)))
+            {
+                return enumerableType.GetGenericArgument();
+            }
+
             return enumerableType
                 .GetInterfaces()
                 .Single(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IEnumerable<>))

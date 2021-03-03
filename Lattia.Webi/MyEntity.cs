@@ -14,5 +14,7 @@ namespace Lattia
         public List<MyNestedEntity> MyNesteds { get; set; }
 
         public int? MyOtherInt { get; set; }
+
+        public ICollection<MyNestedEntity> MyNesteds2 { get; set; }
     }
 }

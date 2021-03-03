@@ -18,5 +18,7 @@ namespace Lattia
         public Property<int[]> MyArr { get; set; } = Property<int[]>.Default();
 
         public Property<List<MyNestedModel>> MyNesteds { get; set; } = Property<List<MyNestedModel>>.Default();
+
+        public Property<ICollection<MyNestedModel>> MyNesteds2 { get; set; } = Property<ICollection<MyNestedModel>>.Default();
     }
 }
