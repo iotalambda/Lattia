@@ -18,7 +18,7 @@ namespace Lattia.AutoMapper
                     return null;
                 }
 
-                return ConvertSerializableType(property.ObjValue.GetType(), property.ObjValue, context);
+                return ConvertSerializableType(source.GetType().GetGenericArgument(), property.ObjValue, context);
             }
 
             CreateMap(typeof(Property<>), typeof(object))
@@ -43,20 +43,29 @@ namespace Lattia.AutoMapper
             CreateSimpleNullableMap<DateTime?>();
             CreateSimpleNullableMap<DateTimeOffset?>();
 
-            object ConvertObjectToProperty(object source, object target, ResolutionContext context)
+            Func<object, object, ResolutionContext, object> ConvertObjectToProperty(bool explicitNull, Type type) => (source, target, context) =>
             {
                 if (source == default)
                 {
-                    return target;
+                    return explicitNull ? Utils.CreatePropertyValue(type, null, true) : target;
                 }
 
                 var targetValue = ConvertSerializableType(source.GetType(), source, context);
 
                 return Utils.CreatePropertyValue(targetValue.GetType(), targetValue, true);
-            }
+            };
+
+            CreateMap(typeof(string), typeof(Property<>))
+                .ConvertUsing(ConvertObjectToProperty(true, typeof(string)));
+
+            CreateMap(typeof(DateTime), typeof(Property<>))
+                .ConvertUsing(ConvertObjectToProperty(true, typeof(DateTime)));
+
+            CreateMap(typeof(DateTimeOffset), typeof(Property<>))
+                .ConvertUsing(ConvertObjectToProperty(true, typeof(DateTimeOffset)));
 
             CreateMap(typeof(object), typeof(Property<>))
-                .ConvertUsing(ConvertObjectToProperty);
+                .ConvertUsing(ConvertObjectToProperty(false, null));
 
             new[]
             {
@@ -70,7 +79,7 @@ namespace Lattia.AutoMapper
                 CreateMap(generic, typeof(Property<>).MakeGenericType(generic))
                     .ConvertUsing((object source, object target, ResolutionContext context) =>
                     {
-                        var sourceProperty = ConvertObjectToProperty(source, target, context) as Property;
+                        var sourceProperty = ConvertObjectToProperty(false, null)(source, target, context) as Property;
                         var itemType = sourceProperty.ObjValue.GetType().GetEnumerableItemType();
                         var innerTargetType = generic.MakeGenericType(itemType);
                         var targetProperty = typeof(Property<>).MakeGenericType(innerTargetType)
@@ -88,7 +97,7 @@ namespace Lattia.AutoMapper
                 {
                     if (source == null)
                     {
-                        return target;
+                        return Utils.CreatePropertyValue(typeof(T), null, true) as Property<T>;
                     }
 
                     return Utils.CreatePropertyValue(typeof(T), source, source != null) as Property<T>;

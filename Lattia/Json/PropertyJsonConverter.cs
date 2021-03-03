@@ -6,7 +6,9 @@ namespace Lattia.Json
 {
     public class PropertyJsonConverter : JsonConverter<Property>
     {
-        public override bool CanRead => base.CanRead;
+        public override bool CanRead => true;
+
+        public override bool CanWrite => true;
 
         public override Property ReadJson(JsonReader reader, Type objectType, Property existingValue, bool hasExistingValue, JsonSerializer serializer)
         {

@@ -2,7 +2,7 @@
 
 namespace Lattia.Webi
 {
-    public class MyNestedModel
+    public class MyNestedModel : IModel
     {
 
         //private Property<int?> Valu = Property<int?>.Default();
@@ -12,5 +12,7 @@ namespace Lattia.Webi
         public Property<int?> MyInt { get; set; } = Property<int?>.Default();
 
         public Property<string> Jotain { get; set; } = Property<string>.Default();
+
+        public Property<MyNestedModel> Nested { get; set; } = Property<MyNestedModel>.Default();
     }
 }

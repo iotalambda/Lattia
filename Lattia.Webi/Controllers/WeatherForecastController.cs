@@ -32,15 +32,13 @@ namespace Lattia.Controllers
         [HttpPost]
         [RequirePropertyPermissions]
         ////[RequireFeaturePermissions(FeatureFlags.WriteMyModel)]
-        public string Post([FromBody, RequirePropertyWritePermissions] MyModel myModel)
+        public ActionResult Post([FromBody, RequirePropertyWritePermissions] MyModel myModel)
         {
             var myEntity = _mapper.Map<MyEntity>(myModel);
 
             var myModel2 = _mapper.Map<MyModel>(myEntity);
 
-            //service.ExcludePropertiesWithoutReadPermission(myModel);
-
-            return $"MYMODEL: HasValue: {myModel.MyNested.Value.MyInt.HasValue}, Value: {myModel.MyNested.Value.MyInt.Value}.";
+            return Ok(myModel2);
         }
     }
 }

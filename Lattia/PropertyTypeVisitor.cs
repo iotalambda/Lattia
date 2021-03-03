@@ -4,10 +4,19 @@ namespace Lattia
 {
     public static class PropertyTypeVisitor
     {
-        public static void Traverse(Type type, Action<PropertyTypeNode> evaluate) => Traverse(type, evaluate, null);
+        public static int MaxDepth = 500;
 
-        private static void Traverse(Type type, Action<PropertyTypeNode> evaluate, PropertyTypeNode node)
+        public static void Traverse(Type type, Action<PropertyTypeNode> evaluate) => Traverse(type, evaluate, null, 0);
+
+        private static void Traverse(Type type, Action<PropertyTypeNode> evaluate, PropertyTypeNode node, int depth)
         {
+            depth++;
+
+            if (depth > MaxDepth)
+            {
+                return;
+            }
+
             var properties = type.GetProperties();
 
             foreach (var property in properties)
@@ -29,16 +38,18 @@ namespace Lattia
                         break;
 
                     case SerializablePropertyType.Object:
-                        Traverse(innerType, evaluate, currentNode);
+                        Traverse(innerType, evaluate, currentNode, depth);
                         break;
 
                     case SerializablePropertyType.Enumerable:
-                        Traverse(innerType.GetEnumerableItemType(), evaluate, currentNode);
+                        Traverse(innerType.GetEnumerableItemType(), evaluate, currentNode, depth);
                         break;
 
                     default: throw new NotSupportedException(innerType.FullName);
                 }
             }
+
+            depth--;
         }
     }
 }

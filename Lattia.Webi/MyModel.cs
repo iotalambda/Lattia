@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Lattia
 {
-    public class MyModel
+    public class MyModel : IModel
     {
         [ReadOnly]
         public Property<string> MyString { get; set; } = Property<string>.Default();
