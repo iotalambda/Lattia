@@ -1,10 +1,11 @@
 ﻿namespace Lattia.Contexts
 {
-    public class CheckPropertyWritePermissionContext
+    public class CheckPropertyWriteGateContext
     {
-        public CheckPropertyWritePermissionContext(PropertyTypeNode propertyTypeNode, PropertyValueNode propertyValueNode)
+        public CheckPropertyWriteGateContext(PropertyTypeNode propertyTypeNode, PropertyValueNode propertyValueNode)
         {
             PropertyTypeNode = propertyTypeNode;
+
             PropertyValueNode = propertyValueNode;
         }
 

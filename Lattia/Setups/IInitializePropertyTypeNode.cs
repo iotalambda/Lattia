@@ -4,6 +4,6 @@ namespace Lattia.Setups
 {
     public interface IInitializePropertyTypeNode
     {
-        void InitializePropertyTypeNode(InitializePropertyTypeNodeContext context);
+        void Initialize(InitializePropertyTypeNodeContext context);
     }
 }

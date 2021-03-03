@@ -2,7 +2,7 @@
 namespace Lattia.Attributes
 {
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = true)]
-    public class RequirePropertyWritePermissions : Attribute
+    public class RequirePropertyWriteGates : Attribute
     {
     }
 }

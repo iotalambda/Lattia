@@ -17,7 +17,7 @@ namespace Lattia.Pipelines
         {
             foreach (var item in items)
             {
-                item.InitializePropertyTypeNode(context);
+                item.Initialize(context);
             }
         }
     }

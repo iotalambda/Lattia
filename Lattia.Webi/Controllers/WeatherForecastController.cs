@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Lattia.Attributes;
 using Lattia.DependencyInjection;
+using Lattia.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -18,21 +19,17 @@ namespace Lattia.Controllers
 
         private readonly IMapper _mapper;
 
-        private readonly CheckPropertyPermissionsService service;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, IMapper mapper, CheckPropertyPermissionsService service)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IMapper mapper)
         {
             _logger = logger;
 
             _mapper = mapper;
-
-            this.service = service;
         }
 
         [HttpPost]
-        [RequirePropertyPermissions]
+        [RequirePropertyGate]
         ////[RequireFeaturePermissions(FeatureFlags.WriteMyModel)]
-        public ActionResult Post([FromBody, RequirePropertyWritePermissions] MyModel myModel)
+        public ActionResult Post([FromBody, RequirePropertyWriteGates] MyModel myModel)
         {
             var myEntity = _mapper.Map<MyEntity>(myModel);
 
