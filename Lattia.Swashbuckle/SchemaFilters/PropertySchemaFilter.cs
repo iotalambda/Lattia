@@ -9,9 +9,12 @@ namespace Lattia.Swashbuckle.SchemaFilters
         {
             if (context.Type.IsGenericType && context.Type.GetGenericTypeDefinition() == typeof(Property<>))
             {
-                schema.Type = schema.Properties["value"].Type;
+                var valueSchema = schema.Properties["value"];
 
-                schema.Properties.Clear();
+                foreach (var propertyInfo in valueSchema.GetType().GetProperties())
+                {
+                    propertyInfo.SetValue(schema, propertyInfo.GetValue(valueSchema));
+                }
             }
         }
     }
