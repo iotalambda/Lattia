@@ -13,6 +13,7 @@ namespace Lattia.Webi
 
         public Property<string> Jotain { get; set; } = Property<string>.Default();
 
+        [WriteOnly]
         public Property<MyNestedModel> Nested { get; set; } = Property<MyNestedModel>.Default();
     }
 }

@@ -1,6 +1,4 @@
-﻿using Lattia.Attributes;
-
-namespace Lattia.Setups.ReadOnly
+﻿namespace Lattia
 {
     public class ReadOnlyPropertyGate : ICheckPropertyGate
     {

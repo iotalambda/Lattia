@@ -37,6 +37,11 @@ namespace Lattia
 
                 evaluate(currentNode);
 
+                if (!property.HasValue)
+                {
+                    continue;
+                }
+
                 var innerType = propertyInfo.GetGenericArgument();
 
                 switch (innerType.ResolveSerializablePropertyType())

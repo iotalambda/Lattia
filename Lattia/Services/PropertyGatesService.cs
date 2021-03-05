@@ -33,5 +33,23 @@ namespace Lattia.Services
 
             return errorResults;
         }
+
+        public TModel ExcludeErrorProperties<TModel>(TModel model, params ICheckPropertyGate[] gates)
+        {
+            PropertyValueVisitor.Traverse(model, propertyValueNode =>
+            {
+                var propertyTypeNode = context.PropertyTypeNodes[propertyValueNode.Path];
+                foreach (var gate in gates)
+                {
+                    var checkResult = gate.Check(propertyTypeNode, propertyValueNode);
+                    if (checkResult is CheckPropertyGateResult.Error errorResult)
+                    {
+                        propertyValueNode.Value.HasValue = false;
+                    }
+                }
+            });
+
+            return model;
+        }
     }
 }

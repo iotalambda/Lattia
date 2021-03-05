@@ -1,9 +1,8 @@
-﻿using Lattia.Attributes;
-using System.Linq;
+﻿using System.Linq;
 
-namespace Lattia.Setups.ReadOnly
+namespace Lattia
 {
-    public class InitializePropertyTypeNode : IInitializePropertyTypeNode
+    public class ReadOnlyInitializePropertyTypeNode : IInitializePropertyTypeNode
     {
         public void Initialize(PropertyTypeNode propertyType)
         {

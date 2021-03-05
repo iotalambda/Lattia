@@ -1,5 +1,4 @@
 ﻿using Lattia.Services;
-using Lattia.Setups.ReadOnly;
 using Lattia.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
