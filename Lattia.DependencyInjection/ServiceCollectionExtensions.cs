@@ -1,10 +1,6 @@
 ﻿using Lattia;
-using Lattia.Attributes;
-using Lattia.Contexts;
-using Lattia.Executors;
 using Lattia.Pipelines;
 using Lattia.Services;
-using Lattia.Setups;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,17 +11,11 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddLattia(this IServiceCollection services, params Type[] modelTypes)
         {
-            // Executors
-            services.AddScoped<IExecuteBeforeActionExecuting, ExecuteBeforeActionExecuting>();
-
             // Pipelines
             services.AddSingleton<IInitializePropertyTypeNodePipeline, InitializePropertyTypeNodePipeline>();
-            services.AddSingleton<ICheckPropertyGatesPipeline<ICheckPropertyReadPermissionGate, CheckPropertyReadGateContext>, CheckPropertyGatesPipeline<ICheckPropertyReadPermissionGate, CheckPropertyReadGateContext>>();
-            services.AddSingleton<ICheckPropertyGatesPipeline<ICheckPropertyWritePermissionGate, CheckPropertyWriteGateContext>, CheckPropertyGatesPipeline<ICheckPropertyWritePermissionGate, CheckPropertyWriteGateContext>>();
-            services.AddSingleton<ICheckPropertyGatesPipeline<ICheckPropertyWriteSanityGate, CheckPropertyWriteGateContext>, CheckPropertyGatesPipeline<ICheckPropertyWriteSanityGate, CheckPropertyWriteGateContext>>();
-            
+
             // Services
-            services.AddSingleton<ICheckPropertyGatesService, CheckPropertyGatesService>();
+            services.AddSingleton<IPropertyGatesService, PropertyGatesService>();
 
             services.AddSingleton<LattiaSingletonContext>(s =>
             {
@@ -37,11 +27,11 @@ namespace Microsoft.Extensions.DependencyInjection
                 {
                     var nodes = new List<PropertyTypeNode>();
 
-                    PropertyTypeVisitor.Traverse(modelType, n =>
+                    PropertyTypeVisitor.Traverse(modelType, propertyType =>
                     {
-                        pipeline.InitializePropertyTypeNode(new InitializePropertyTypeNodeContext(n));
+                        pipeline.InitializePropertyTypeNode(propertyType);
 
-                        nodes.Add(n);
+                        nodes.Add(propertyType);
                     });
 
                     foreach (var n in nodes)

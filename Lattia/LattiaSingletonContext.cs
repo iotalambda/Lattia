@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Lattia.Contexts
+namespace Lattia
 {
     public class LattiaSingletonContext
     {

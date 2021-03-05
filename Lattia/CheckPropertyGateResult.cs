@@ -2,20 +2,13 @@
 {
     public abstract class CheckPropertyGateResult
     {
-        public class Ok : CheckPropertyGateResult
+        public class Success : CheckPropertyGateResult
         {
-            public static Ok Instance { get; } = new Ok();
+            public static Success Instance { get; } = new Success();
         }
 
-        public class Nok : CheckPropertyGateResult
+        public class Error : CheckPropertyGateResult
         {
-            public class NoPermission : Nok
-            {
-            }
-
-            public class InvalidRequest : Nok
-            {
-            }
         }
     }
 }

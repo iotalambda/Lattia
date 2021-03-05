@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Reflection;
 
-namespace Lattia
+namespace Lattia.Utils
 {
-    public class Utils
+    public class Helpers
     {
         public static bool IsSimpleType(Type type)
         {

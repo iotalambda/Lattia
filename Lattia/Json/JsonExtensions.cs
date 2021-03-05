@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Lattia.Utils;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using System;
@@ -46,7 +47,7 @@ namespace Lattia.Json
         {
             JToken jtoken;
 
-            if (Utils.IsLattiaProperty(propertyInfo))
+            if (Helpers.IsLattiaProperty(propertyInfo))
             {
                 var property = value as Property;
 

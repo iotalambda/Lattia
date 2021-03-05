@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Lattia.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,12 +48,12 @@ namespace Lattia.AutoMapper
             {
                 if (source == default)
                 {
-                    return explicitNull ? Utils.CreatePropertyValue(type, null, true) : target;
+                    return explicitNull ? Helpers.CreatePropertyValue(type, null, true) : target;
                 }
 
                 var targetValue = ConvertSerializableType(source.GetType(), source, context);
 
-                return Utils.CreatePropertyValue(targetValue.GetType(), targetValue, true);
+                return Helpers.CreatePropertyValue(targetValue.GetType(), targetValue, true);
             };
 
             CreateMap(typeof(string), typeof(Property<>))
@@ -97,10 +98,10 @@ namespace Lattia.AutoMapper
                 {
                     if (source == null)
                     {
-                        return Utils.CreatePropertyValue(typeof(T), null, true) as Property<T>;
+                        return Helpers.CreatePropertyValue(typeof(T), null, true) as Property<T>;
                     }
 
-                    return Utils.CreatePropertyValue(typeof(T), source, source != null) as Property<T>;
+                    return Helpers.CreatePropertyValue(typeof(T), source, source != null) as Property<T>;
                 });
         }
 

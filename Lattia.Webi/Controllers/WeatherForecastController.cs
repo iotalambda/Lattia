@@ -2,6 +2,7 @@
 using Lattia.Attributes;
 using Lattia.DependencyInjection;
 using Lattia.Services;
+using Lattia.Webi;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -27,9 +28,9 @@ namespace Lattia.Controllers
         }
 
         [HttpPost]
-        [RequirePropertyGate]
+        [RequirePropertyGate]   
         ////[RequireFeaturePermissions(FeatureFlags.WriteMyModel)]
-        public ActionResult Post([FromBody, RequirePropertyWriteGates] MyModel myModel)
+        public ActionResult Post([FromBody] MyModel myModel)
         {
             var myEntity = _mapper.Map<MyEntity>(myModel);
 

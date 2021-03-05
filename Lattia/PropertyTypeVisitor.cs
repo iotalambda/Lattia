@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lattia.Utils;
+using System;
 
 namespace Lattia
 {
@@ -21,7 +22,7 @@ namespace Lattia
 
             foreach (var property in properties)
             {
-                if (!Utils.IsLattiaProperty(property))
+                if (!Helpers.IsLattiaProperty(property))
                 {
                     continue;
                 }

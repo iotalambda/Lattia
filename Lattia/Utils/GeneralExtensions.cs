@@ -3,27 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Lattia
+namespace Lattia.Utils
 {
     public static class GeneralExtensions
     {
         public static Type GetGenericArgument(this Type type) => type.GetGenericArguments()[0];
 
-        public static Type GetGenericArgument(this PropertyInfo propertyInfo) => GetGenericArgument(propertyInfo.PropertyType);
+        public static Type GetGenericArgument(this PropertyInfo propertyInfo) => propertyInfo.PropertyType.GetGenericArgument();
 
         public static bool IsNullable(this Type type) => type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
 
         public static SerializablePropertyType ResolveSerializablePropertyType(this Type type)
         {
-            if (Utils.IsSimpleType(type))
+            if (Helpers.IsSimpleType(type))
             {
                 return SerializablePropertyType.Simple;
             }
-            else if (Utils.IsObjectType(type))
+            else if (Helpers.IsObjectType(type))
             {
                 return SerializablePropertyType.Object;
             }
-            else if (Utils.IsNonStringEnumerable(type))
+            else if (Helpers.IsNonStringEnumerable(type))
             {
                 return SerializablePropertyType.Enumerable;
             }

@@ -1,6 +1,4 @@
-﻿using Lattia.Contexts;
-using Lattia.Setups;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Lattia.Pipelines
 {
@@ -13,11 +11,11 @@ namespace Lattia.Pipelines
             this.items = items;
         }
 
-        public void InitializePropertyTypeNode(InitializePropertyTypeNodeContext context)
+        public void InitializePropertyTypeNode(PropertyTypeNode propertyType)
         {
             foreach (var item in items)
             {
-                item.Initialize(context);
+                item.Initialize(propertyType);
             }
         }
     }
